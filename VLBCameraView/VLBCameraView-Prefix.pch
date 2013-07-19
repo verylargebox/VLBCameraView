@@ -1,0 +1,10 @@
+//
+// Prefix header for all source files of the 'VLBCameraView' target in the 'VLBCameraView' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import "DDLog.h"
+#endif
+
+static const int ddLogLevel = LOG_LEVEL_INFO;
