@@ -43,7 +43,7 @@ Pending pull request.
 
 # Demo
 
-See [VLBCameraViewApp][].
+See [VLBCameraViewApp][1].
 
 # Future Work
 
@@ -53,6 +53,7 @@ TBD
 
 VLBCameraViewApp also includes the ApplicationTests for this library.
 
+[1]: https://github.com/qnoid/VLBCameraViewApp
 [2]: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIImagePickerController_Class/UIImagePickerController/UIImagePickerController.html#//apple_ref/occ/instp/UIImagePickerController/cameraOverlayView
 [3]: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIImagePickerController_Class/UIImagePickerController/UIImagePickerController.html#//apple_ref/occ/instp/UIImagePickerController/allowsEditing
 
