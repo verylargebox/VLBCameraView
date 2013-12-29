@@ -94,7 +94,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  @param cameraView the VLBCameraView intance that this delegate is assigned to.
  @param image current image currently previewing.
  */
--(void)cameraView:(VLBCameraView*)cameraView willRekatePicture:(UIImage *)image;
+-(void)cameraView:(VLBCameraView*)cameraView willRetakePicture:(UIImage *)image;
 
 /**
  Implement if VLBCameraView.writeToCameraRoll is set to YES.
@@ -165,5 +165,14 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  */
 - (void)takePicture;
 
+/**
+ 
+ Restart the take picture session as if the user had tapped on the view with the VLBCameraView#allowPictureRetake property set to YES. 
+ 
+ Does not block.
+
+ @callback on the main thread at VLBCameraViewDelegate#cameraView:willRetakePicture:
+ */
+- (void) retakePicture;
 
 @end
