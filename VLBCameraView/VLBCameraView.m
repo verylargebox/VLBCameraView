@@ -235,12 +235,16 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     }
 }
 
-- (void)retakePicture:(UITapGestureRecognizer*) tapToRetakeGesture
-{
-    [self.delegate cameraView:self willRekatePicture:self.preview.image];
+- (void)retakePicture {
+    [self.delegate cameraView:self willRetakePicture:self.preview.image];
     
     self.preview.image = nil;
     [self.session startRunning];
+}
+
+- (void)retakePicture:(UITapGestureRecognizer*) tapToRetakeGesture
+{
+    [self retakePicture];
 }
 
 @end
