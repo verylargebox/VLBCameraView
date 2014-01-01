@@ -89,7 +89,7 @@ return self;
 
 -(VLBCaptureStillImageBlock) didFinishTakingPicture:(AVCaptureSession*) session preview:(UIImageView*) preview
 {
-    VLBCameraView *wself = self;
+    __weak VLBCameraView *wself = self;
     
 return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     {
