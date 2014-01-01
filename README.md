@@ -21,7 +21,12 @@ The 'VLBCameraView.xcodeproj' builds a static library 'libVLBCameraView.a'
 
 # Cocoapods
 
-Pending pull request.
+-> VLBCameraView (1.0)
+   A UIVIew that shows a live feed of the camera, can be used to take a picture, preview the picture and return a UIImage of that preview.
+   - Homepage: https://github.com/qnoid/VLBCameraView
+   - Source:   https://github.com/qnoid/VLBCameraView.git
+   - Versions: 1.0 [master repo]
+
 
 # Versions
 1.0 initial version. Support live feed, take picture, preview, re-take.
@@ -43,7 +48,7 @@ Pending pull request.
 
 # Demo
 
-See [VLBCameraViewApp][].
+See [VLBCameraViewApp][1].
 
 # Future Work
 
@@ -53,6 +58,7 @@ TBD
 
 VLBCameraViewApp also includes the ApplicationTests for this library.
 
+[1]: https://github.com/qnoid/VLBCameraViewApp
 [2]: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIImagePickerController_Class/UIImagePickerController/UIImagePickerController.html#//apple_ref/occ/instp/UIImagePickerController/cameraOverlayView
 [3]: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIImagePickerController_Class/UIImagePickerController/UIImagePickerController.html#//apple_ref/occ/instp/UIImagePickerController/allowsEditing
 

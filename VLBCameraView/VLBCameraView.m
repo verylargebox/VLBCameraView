@@ -214,7 +214,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
 {
     [UIView animateWithDuration:0.4f
                      animations:^{ self.flashView.alpha = 1.0f; }
-                     completion:^(BOOL finished){ [self.flashView.layer removeFromSuperlayer]; }
+                     completion:^(BOOL finished){ self.flashView.alpha = 0.0f; }
      ];
     
     VLBCaptureStillImageBlock didFinishTakingPicture = [self didFinishTakingPicture:self.session
@@ -235,12 +235,16 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     }
 }
 
-- (void)retakePicture:(UITapGestureRecognizer*) tapToRetakeGesture
-{
-    [self.delegate cameraView:self willRekatePicture:self.preview.image];
+- (void)retakePicture {
+    [self.delegate cameraView:self willRetakePicture:self.preview.image];
     
     self.preview.image = nil;
     [self.session startRunning];
+}
+
+- (void)retakePicture:(UITapGestureRecognizer*) tapToRetakeGesture
+{
+    [self retakePicture];
 }
 
 @end
