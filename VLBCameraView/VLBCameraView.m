@@ -110,9 +110,9 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
                                                                     kCMAttachmentMode_ShouldPropagate);
         NSDictionary *info = (__bridge NSDictionary*)attachments;
 
-        if(self.writeToCameraRoll)
+        if(wself.writeToCameraRoll)
         {
-            [self.delegate cameraView:self willRriteToCameraRollWithMetadata:info];
+            [wself.delegate cameraView:wself willRriteToCameraRollWithMetadata:info];
             
             ALAssetsLibrary *library = [ALAssetsLibrary new];
             [library writeImageDataToSavedPhotosAlbum:imageData

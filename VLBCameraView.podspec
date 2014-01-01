@@ -10,11 +10,11 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
 
   s.source_files = 'VLBCameraView/**/*.{h,m}'
-	s.resources = 'VLBCameraView/**/*.xib'
-	s.prefix_header_file = 'VLBCameraView/VLBCameraView-Prefix.pch'
+  s.resources = 'VLBCameraView/**/*.xib'
+  s.prefix_header_file = 'VLBCameraView/VLBCameraView-Prefix.pch'
   s.frameworks = 'Foundation', 'UIKit', 'AVFoundation', 'CoreImage', 'CoreMedia', 'CoreGraphics', 'AssetsLibrary'
-	s.dependency 'CocoaLumberjack', '1.6.2'
-	s.dependency 'VLBFoundation'
+  s.dependency 'CocoaLumberjack', '1.6.2'
+  s.dependency 'VLBFoundation'
   s.requires_arc = true
 
 end
