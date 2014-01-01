@@ -214,7 +214,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
 {
     [UIView animateWithDuration:0.4f
                      animations:^{ self.flashView.alpha = 1.0f; }
-                     completion:^(BOOL finished){ [self.flashView.layer removeFromSuperlayer]; }
+                     completion:^(BOOL finished){ self.flashView.alpha = 0.0f; }
      ];
     
     VLBCaptureStillImageBlock didFinishTakingPicture = [self didFinishTakingPicture:self.session
