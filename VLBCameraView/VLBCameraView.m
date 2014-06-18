@@ -137,7 +137,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
 {
 	NSError *error = nil;
 	    
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *device = [self frontFacingCameraIfAvailable];
     
     if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
 		NSError *error;
@@ -245,6 +245,28 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
 - (void)retakePicture:(UITapGestureRecognizer*) tapToRetakeGesture
 {
     [self retakePicture];
+}
+
+-(AVCaptureDevice *)frontFacingCameraIfAvailable
+{
+    NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    AVCaptureDevice *captureDevice = nil;
+    for (AVCaptureDevice *device in videoDevices)
+    {
+        if (device.position == AVCaptureDevicePositionFront)
+        {
+            captureDevice = device;
+            break;
+        }
+    }
+    
+    //  couldn't find one on the front, so just get the default video device.
+    if ( ! captureDevice)
+    {
+        captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    }
+    
+    return captureDevice;
 }
 
 @end

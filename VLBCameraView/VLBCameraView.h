@@ -174,5 +174,6 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  @callback on the main thread at VLBCameraViewDelegate#cameraView:willRetakePicture:
  */
 - (void) retakePicture;
+-(AVCaptureDevice *)frontFacingCameraIfAvailable
 
 @end
