@@ -52,8 +52,8 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     [cameraView.session setSessionPreset:AVCaptureSessionPresetPhoto];
     
     cameraView.videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:cameraView.session];
-	cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-	cameraView.videoPreviewLayer.frame = cameraView.layer.bounds;
+    cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    cameraView.videoPreviewLayer.frame = cameraView.layer.bounds;
     
     cameraView.flashView = [[UIView alloc] initWithFrame:cameraView.preview.bounds];
     cameraView.flashView.backgroundColor = [UIColor whiteColor];
@@ -67,31 +67,33 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 {
     self = [super initWithFrame:frame];
     
-    VLB_IF_NOT_SELF_RETURN_NIL();    
+    VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
-
+    
     VLBCameraViewInitBlock(self);
-
-return self;
+    
+    return self;
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     
-    VLB_IF_NOT_SELF_RETURN_NIL();    
+    VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
-
-    VLBCameraViewInitBlock(self);
     
-return self;
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        VLBCameraViewInitBlock(self);
+    }
+    
+    return self;
 }
 
 -(VLBCaptureStillImageBlock) didFinishTakingPicture:(AVCaptureSession*) session preview:(UIImageView*) preview
 {
     __weak VLBCameraView *wself = self;
     
-return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
+    return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     {
         [session stopRunning];
         
@@ -100,7 +102,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
                 [wself cameraView:wself didErrorOnTakePicture:error];
             });
             
-        return;
+            return;
         }
         
         NSData* imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
@@ -109,7 +111,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
                                                                     imageDataSampleBuffer,
                                                                     kCMAttachmentMode_ShouldPropagate);
         NSDictionary *info = (__bridge NSDictionary*)attachments;
-
+        
         if(wself.writeToCameraRoll)
         {
             [wself.delegate cameraView:wself willRriteToCameraRollWithMetadata:info];
@@ -121,57 +123,59 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
                                           DDLogError(@"%@", error);
                                       }];
         }
-
+        
         dispatch_async(dispatch_get_main_queue(), ^(void)
-        {
-            preview.image = image;
-                        
-            [wself cameraView:wself didFinishTakingPicture:image withInfo:info meta:nil];
-            
-            CFRelease(attachments);
-        });
+                       {
+                           preview.image = image;
+                           
+                           [wself cameraView:wself didFinishTakingPicture:image withInfo:info meta:nil];
+                           
+                           CFRelease(attachments);
+                       });
     };
 }
 
 -(void)awakeFromNib
 {
-	NSError *error = nil;
-	    
-    AVCaptureDevice *device = [self frontFacingCameraIfAvailable];
-    
-    if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
-		NSError *error;
-		if ([device lockForConfiguration:&error]) {
-			device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-			[device unlockForConfiguration];
-        }
-    }
-    
-    if([device isFlashModeSupported:AVCaptureFlashModeAuto]){
-		if ([device lockForConfiguration:&error]) {
-            device.flashMode = AVCaptureFlashModeAuto;
-			[device unlockForConfiguration];
-        }
-    }
-
-	AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
-    
-    if(error){
-        [NSException raise:[NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
-                    format:[error localizedDescription], nil];
-    }
-	
-    [self.session addInput:deviceInput];
-	
-	self.stillImageOutput = [AVCaptureStillImageOutput new];
-    [self.session addOutput:self.stillImageOutput];
-		
-	[self.layer addSublayer:self.videoPreviewLayer];
-    
-	[self.session startRunning];
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        NSError *error = nil;
         
-    self.stillImageConnection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-    [self cameraView:self didCreateCaptureConnection:self.stillImageConnection];
+        AVCaptureDevice *device = [self frontFacingCameraIfAvailable];
+        
+        if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
+            NSError *error;
+            if ([device lockForConfiguration:&error]) {
+                device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+                [device unlockForConfiguration];
+            }
+        }
+        
+        if([device isFlashModeSupported:AVCaptureFlashModeAuto]){
+            if ([device lockForConfiguration:&error]) {
+                device.flashMode = AVCaptureFlashModeAuto;
+                [device unlockForConfiguration];
+            }
+        }
+        
+        AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+        
+        if(error){
+            [NSException raise:[NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
+                        format:[error localizedDescription], nil];
+        }
+        
+        [self.session addInput:deviceInput];
+        
+        self.stillImageOutput = [AVCaptureStillImageOutput new];
+        [self.session addOutput:self.stillImageOutput];
+        
+        [self.layer addSublayer:self.videoPreviewLayer];
+        
+        [self.session startRunning];
+        
+        self.stillImageConnection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+        [self cameraView:self didCreateCaptureConnection:self.stillImageConnection];
+    }
 }
 
 -(void)cameraView:(VLBCameraView*)cameraView didCreateCaptureConnection:(AVCaptureConnection*)captureConnection
@@ -197,7 +201,7 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], crop);
     UIImage *newImage = [UIImage imageWithCGImage:imageRef scale:1.0f orientation:image.imageOrientation]; //preserve camera orientation
     CGImageRelease(imageRef);
-
+    
     
     [self.delegate cameraView:cameraView
        didFinishTakingPicture:newImage
@@ -223,8 +227,8 @@ return ^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
     // set the appropriate pixel format / image type output setting depending on if we'll need an uncompressed image for
     // the possiblity of drawing the red square over top or if we're just writing a jpeg to the camera roll which is the trival case
     [self.stillImageOutput setOutputSettings:@{AVVideoCodecKey:AVVideoCodecJPEG}];
-	[self.stillImageOutput captureStillImageAsynchronouslyFromConnection:self.stillImageConnection
-                                                  completionHandler:didFinishTakingPicture];
+    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:self.stillImageConnection
+                                                       completionHandler:didFinishTakingPicture];
     
     //test
     if(self.allowPictureRetake){
