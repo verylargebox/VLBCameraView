@@ -1,7 +1,7 @@
 # Introduction
 A UIVIew that shows a live feed of the camera, can be used to take a picture, preview that picture and return an UIImage of that preview.
 
-Even though an UIImagePickerController allows a custom [overlay][2] to ovveride the default camera controls, it gives you no control over its camera bounds. Instead it captures a UIImage in full camera resolution, giving you the option to [edit][3] as a second step.
+Even though an UIImagePickerController allows a custom [overlay][2] to override the default camera controls, it gives you no control over its camera bounds. Instead it captures a UIImage in full camera resolution, giving you the option to [edit][3] as a second step.
 
 VLBCameraView creates a *viewport* that displays only a portion of what the camera lense captures. Using that viewport, it creates a cropped UIImage of the full camera resolution. 
 
@@ -21,14 +21,15 @@ The 'VLBCameraView.xcodeproj' builds a static library 'libVLBCameraView.a'
 
 # Cocoapods
 
--> VLBCameraView (1.0)
+-> VLBCameraView (2.0)
    A UIVIew that shows a live feed of the camera, can be used to take a picture, preview the picture and return a UIImage of that preview.
-   - Homepage: https://github.com/qnoid/VLBCameraView
-   - Source:   https://github.com/qnoid/VLBCameraView.git
-   - Versions: 1.0 [master repo]
-
+   pod 'VLBCameraView', '~> 2.0'
+   - Homepage: https://github.com/verylargebox/VLBCameraView
+   - Source:   https://github.com/verylargebox/VLBCameraView.git
+   - Versions: 2.0, 1.0 [master repo]
 
 # Versions
+2.0 A major release but a minor update. Breaking change due to a typo in a public method.
 1.0 initial version. Support live feed, take picture, preview, re-take.
 
 # How to use
