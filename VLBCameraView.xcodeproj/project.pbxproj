@@ -45,15 +45,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		305442DF5A6A4C36A0B159CD /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		35021534EBF8467782866427 /* Pods-UnitTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.xcconfig"; path = "Pods/Pods-UnitTests.xcconfig"; sourceTree = SOURCE_ROOT; };
-		357AE1252B2140F3977F19BE /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		3E8915A70C194608B46A5442 /* libPods-UnitTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UnitTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BDFC5F2E1CE467286E2530F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2CDF7F1A105493ABD9C885E /* Pods-UnitTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UnitTests.xcconfig"; path = "Pods/Pods-UnitTests.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BDBD0B2C17899C49003A7B23 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		BDBD0B2E17899C4E003A7B23 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		BDBD0B4B1789A191003A7B23 /* UnitTests copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "UnitTests copy-Info.plist"; path = "/Users/qnoid/Developer/workspace/objective-c/VLBCameraView/libVLBCameraView/UnitTests copy-Info.plist"; sourceTree = "<absolute>"; };
 		BDBD0B571789A265003A7B23 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BDBD0B5A1789A28D003A7B23 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		BDBD0B5F1789A3CA003A7B23 /* 8mpximage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 8mpximage.png; path = "Supporting Files/8mpximage.png"; sourceTree = "<group>"; };
@@ -122,11 +117,6 @@
 				BDFD0AA91789800800DF1A90 /* VLBCameraViewTests */,
 				BDFD0A911789800700DF1A90 /* Frameworks */,
 				BDFD0A901789800700DF1A90 /* Products */,
-				A2CDF7F1A105493ABD9C885E /* Pods-UnitTests.xcconfig */,
-				357AE1252B2140F3977F19BE /* Pods.xcconfig */,
-				305442DF5A6A4C36A0B159CD /* Pods.xcconfig */,
-				35021534EBF8467782866427 /* Pods-UnitTests.xcconfig */,
-				BDBD0B4B1789A191003A7B23 /* UnitTests copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -238,7 +228,7 @@
 			name = UnitTests;
 			productName = VLBCameraViewTests;
 			productReference = BDFD0AA01789800800DF1A90 /* UnitTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -495,7 +485,6 @@
 		};
 		BDFD0AB51789800800DF1A90 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 305442DF5A6A4C36A0B159CD /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/VLBCameraView.dst;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -512,7 +501,6 @@
 		};
 		BDFD0AB61789800800DF1A90 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 305442DF5A6A4C36A0B159CD /* Pods.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/VLBCameraView.dst;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -529,7 +517,6 @@
 		};
 		BDFD0AB81789800800DF1A90 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35021534EBF8467782866427 /* Pods-UnitTests.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -548,7 +535,6 @@
 		};
 		BDFD0AB91789800800DF1A90 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35021534EBF8467782866427 /* Pods-UnitTests.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

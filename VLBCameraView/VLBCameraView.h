@@ -139,7 +139,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 
 ///
 @property(nonatomic, assign) BOOL writeToCameraRoll;
-
+@property(nonatomic, assign) AVCaptureDevicePosition *currentPosition;
 
 /**
  
@@ -174,6 +174,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  @callback on the main thread at VLBCameraViewDelegate#cameraView:willRetakePicture:
  */
 - (void) retakePicture;
--(AVCaptureDevice *)frontFacingCameraIfAvailable;
+- (void) toggleCamera;
+-(AVCaptureDevice *)getCamera:(AVCaptureDevicePosition *)postion;
 
 @end

@@ -66,6 +66,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    self.currentPosition = AVCaptureDevicePositionBack
     
     VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
@@ -78,6 +79,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
+    self.currentPosition = AVCaptureDevicePositionBack
     
     VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
@@ -140,7 +142,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         NSError *error = nil;
         
-        AVCaptureDevice *device = [self frontFacingCameraIfAvailable];
+        AVCaptureDevice *device = [self getCamera:self.currentPosition]
         
         if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
             NSError *error;
@@ -251,13 +253,23 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     [self retakePicture];
 }
 
--(AVCaptureDevice *)frontFacingCameraIfAvailable
+-(void)toggleCamera {
+    if (self.currentPosition == AVCaptureDevicePositionBack) {
+        self.currentPosition = AVCaptureDevicePositionFront
+    } else {
+        self.currentPosition = AVCaptureDevicePositionBack
+    }
+    
+    [self retakePicture]
+}
+
+-(AVCaptureDevice *)getCamera:(AVCaptureDevicePosition *)postion
 {
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     AVCaptureDevice *captureDevice = nil;
     for (AVCaptureDevice *device in videoDevices)
     {
-        if (device.position == AVCaptureDevicePositionFront)
+        if (device.position == postion)
         {
             captureDevice = device;
             break;
