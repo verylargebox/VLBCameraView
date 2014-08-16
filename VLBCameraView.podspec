@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "VLBCameraView"
-  s.version      = "2.0"
+  s.version      = "2.1"
   s.summary      = "A UIVIew that shows a live feed of the camera, can be used to take a picture, preview the picture and return a UIImage of that preview." 
   s.homepage     = "https://github.com/verylargebox/VLBCameraView"
   s.license			 = "MIT"
