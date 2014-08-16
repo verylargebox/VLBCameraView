@@ -66,7 +66,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    self.currentPosition = AVCaptureDevicePositionBack
+    self.cameraIsFrontFacing = NO;
     
     VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
@@ -79,7 +79,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    self.currentPosition = AVCaptureDevicePositionBack
+    self.cameraIsFrontFacing = NO;
     
     VLB_IF_NOT_SELF_RETURN_NIL();
     VLB_LOAD_VIEW()
@@ -140,33 +140,15 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 -(void)awakeFromNib
 {
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        NSError *error = nil;
-        
-        AVCaptureDevice *device = [self getCamera:self.currentPosition]
-        
-        if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
-            NSError *error;
-            if ([device lockForConfiguration:&error]) {
-                device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-                [device unlockForConfiguration];
-            }
+        for (AVCaptureInput *oldInput in [self.session inputs]) {
+            [self.session removeInput:oldInput];
         }
         
-        if([device isFlashModeSupported:AVCaptureFlashModeAuto]){
-            if ([device lockForConfiguration:&error]) {
-                device.flashMode = AVCaptureFlashModeAuto;
-                [device unlockForConfiguration];
-            }
+        for (AVCaptureOutput *oldOutput in [self.session outputs]) {
+            [self.session removeOutput:oldOutput];
         }
         
-        AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
-        
-        if(error){
-            [NSException raise:[NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
-                        format:[error localizedDescription], nil];
-        }
-        
-        [self.session addInput:deviceInput];
+        [self.session addInput: [self getDeviceInput]];
         
         self.stillImageOutput = [AVCaptureStillImageOutput new];
         [self.session addOutput:self.stillImageOutput];
@@ -254,22 +236,51 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 }
 
 -(void)toggleCamera {
-    if (self.currentPosition == AVCaptureDevicePositionBack) {
-        self.currentPosition = AVCaptureDevicePositionFront
-    } else {
-        self.currentPosition = AVCaptureDevicePositionBack
-    }
-    
-    [self retakePicture]
+    self.cameraIsFrontFacing = !self.cameraIsFrontFacing;
+    [self.session stopRunning];
+    [self awakeFromNib];
 }
 
--(AVCaptureDevice *)getCamera:(AVCaptureDevicePosition *)postion
+-(AVCaptureInput *)getDeviceInput {
+    NSError *error = nil;
+    AVCaptureDevice *device = [self getCamera];
+    
+    if ([device isFocusModeSupported:AVCaptureFocusModeContinuousAutoFocus]) {
+        NSError *error;
+        if ([device lockForConfiguration:&error]) {
+            device.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+            [device unlockForConfiguration];
+        }
+    }
+    
+    if([device isFlashModeSupported:AVCaptureFlashModeAuto]){
+        if ([device lockForConfiguration:&error]) {
+            device.flashMode = AVCaptureFlashModeAuto;
+            [device unlockForConfiguration];
+        }
+    }
+    
+    AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+    
+    if(error){
+        [NSException raise:[NSString stringWithFormat:@"Failed with error %d", (int)[error code]]
+                    format:[error localizedDescription], nil];
+    }
+    
+    return deviceInput;
+}
+
+-(AVCaptureDevice *)getCamera
 {
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     AVCaptureDevice *captureDevice = nil;
     for (AVCaptureDevice *device in videoDevices)
     {
-        if (device.position == postion)
+        if (self.cameraIsFrontFacing && device.position == AVCaptureDevicePositionFront)
+        {
+            captureDevice = device;
+            break;
+        } else if (!self.cameraIsFrontFacing && device.position == AVCaptureDevicePositionBack)
         {
             captureDevice = device;
             break;

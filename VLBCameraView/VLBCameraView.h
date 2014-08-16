@@ -51,7 +51,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 @protocol VLBCameraViewDelegate <NSObject>
 
 /**
- Implement to get a callaback on the main thread with the image on VLBCameraView#takePicture: only if an error didn't 
+ Implement to get a callaback on the main thread with the image on VLBCameraView#takePicture: only if an error didn't
  occur.
  
  @param cameraView the VLBCameraView intance that this delegate is assigned to
@@ -77,8 +77,8 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  Will get a callback to customise the underlying AVCaptureConnection when created.
  
  AVCaptureConnection has the following properties already set:
-
-    videoOrientation = AVCaptureVideoOrientationPortrait;
+ 
+ videoOrientation = AVCaptureVideoOrientationPortrait;
  
  @param cameraView the VLBCameraView instance this delegate is assigned to
  @param captureConnection the AVCaptureConnection instance that will be used to capture the image
@@ -114,9 +114,9 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
  
  
  The view controller that has VLBCameraView in its hierarchy should set the image from cameraView:didFinishTakingPicture:editingInfo #preview.image on #viewWillAppear
-
+ 
  Portrait, iPhone only orientation
- @see 
+ @see
  */
 @interface VLBCameraView : UIView <VLBCameraViewDelegate>
 
@@ -139,7 +139,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 
 ///
 @property(nonatomic, assign) BOOL writeToCameraRoll;
-@property(nonatomic, assign) AVCaptureDevicePosition *currentPosition;
+@property(nonatomic, assign) BOOL *cameraIsFrontFacing;
 
 /**
  
@@ -150,7 +150,7 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 /**
  Set backgroundColor to a custom one
  
-    backgroundColor = [UIColor whiteColor];
+ backgroundColor = [UIColor whiteColor];
  
  */
 @property(nonatomic, strong) UIView *flashView;
@@ -167,14 +167,15 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 
 /**
  
- Restart the take picture session as if the user had tapped on the view with the VLBCameraView#allowPictureRetake property set to YES. 
+ Restart the take picture session as if the user had tapped on the view with the VLBCameraView#allowPictureRetake property set to YES.
  
  Does not block.
-
+ 
  @callback on the main thread at VLBCameraViewDelegate#cameraView:willRetakePicture:
  */
 - (void) retakePicture;
 - (void) toggleCamera;
--(AVCaptureDevice *)getCamera:(AVCaptureDevicePosition *)postion;
+-(AVCaptureDevice *)getCamera;
+-(AVCaptureInput *)getDeviceInput;
 
 @end
