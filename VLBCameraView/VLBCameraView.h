@@ -140,20 +140,12 @@ extern VLBCameraViewMeta const VLBCameraViewMetaOriginalImage;
 ///
 @property(nonatomic, assign) BOOL writeToCameraRoll;
 @property(nonatomic, assign) BOOL *cameraIsFrontFacing;
+@property(nonatomic, strong) AVCaptureSession *session;
 
 /**
  
  */
 @property(nonatomic, assign) IBOutlet NSObject<VLBCameraViewDelegate>* delegate;
-
-
-/**
- Set backgroundColor to a custom one
- 
- backgroundColor = [UIColor whiteColor];
- 
- */
-@property(nonatomic, strong) UIView *flashView;
 
 
 /**

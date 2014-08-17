@@ -38,7 +38,6 @@ VLBCameraViewMeta const VLBCameraViewMetaCrop = @"VLBCameraViewMetaCrop";
 VLBCameraViewMeta const VLBCameraViewMetaOriginalImage = @"VLBCameraViewMetaOriginalImage";
 
 @interface VLBCameraView ()
-@property(nonatomic, strong) AVCaptureSession *session;
 @property(nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 @property(nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property(nonatomic, strong) AVCaptureConnection *stillImageConnection;
@@ -206,8 +205,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:self.stillImageConnection
                                                        completionHandler:didFinishTakingPicture];
     
-    //test
-    if(self.allowPictureRetake){
+    if(self.allowPictureRetake) {
         UITapGestureRecognizer *tapToRetakeGesture =
         [[UITapGestureRecognizer alloc] initWithTarget:self
                                                 action:@selector(retakePicture:)];
