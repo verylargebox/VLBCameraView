@@ -54,11 +54,6 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     cameraView.videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:cameraView.session];
     cameraView.videoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     cameraView.videoPreviewLayer.frame = cameraView.layer.bounds;
-    
-    cameraView.flashView = [[UIView alloc] initWithFrame:cameraView.preview.bounds];
-    cameraView.flashView.backgroundColor = [UIColor whiteColor];
-    cameraView.flashView.alpha = 0.0f;
-    [cameraView.videoPreviewLayer addSublayer:cameraView.flashView.layer];
 };
 
 @implementation VLBCameraView
@@ -114,6 +109,11 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
                                                                     kCMAttachmentMode_ShouldPropagate);
         NSDictionary *info = (__bridge NSDictionary*)attachments;
         
+        if(wself.cameraIsFrontFacing) {
+            image = [UIImage imageWithCGImage: image.CGImage scale:image.scale orientation:UIImageOrientationLeftMirrored];
+        }
+        
+        
         if(wself.writeToCameraRoll)
         {
             [wself.delegate cameraView:wself willRriteToCameraRollWithMetadata:info];
@@ -129,9 +129,7 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
         dispatch_async(dispatch_get_main_queue(), ^(void)
                        {
                            preview.image = image;
-                           
                            [wself cameraView:wself didFinishTakingPicture:image withInfo:info meta:nil];
-                           
                            CFRelease(attachments);
                        });
     };
@@ -186,7 +184,6 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
     UIImage *newImage = [UIImage imageWithCGImage:imageRef scale:1.0f orientation:image.imageOrientation]; //preserve camera orientation
     CGImageRelease(imageRef);
     
-    
     [self.delegate cameraView:cameraView
        didFinishTakingPicture:newImage
                      withInfo:info meta:@{VLBCameraViewMetaCrop:[NSValue valueWithCGRect:crop],
@@ -200,11 +197,6 @@ VLBCameraViewInit const VLBCameraViewInitBlock = ^(VLBCameraView *cameraView){
 
 - (void)takePicture
 {
-    [UIView animateWithDuration:0.4f
-                     animations:^{ self.flashView.alpha = 1.0f; }
-                     completion:^(BOOL finished){ self.flashView.alpha = 0.0f; }
-     ];
-    
     VLBCaptureStillImageBlock didFinishTakingPicture = [self didFinishTakingPicture:self.session
                                                                             preview:self.preview];
     

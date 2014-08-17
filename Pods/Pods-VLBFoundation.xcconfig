@@ -1,0 +1,1 @@
+PODS_VLBFOUNDATION_OTHER_LDFLAGS = -framework Foundation
