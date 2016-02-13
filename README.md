@@ -19,7 +19,7 @@ Limited supports to customise the underlying AVCaptureConnection is also availab
 * VLBCameraView
 The 'VLBCameraView.xcodeproj' builds a static library 'libVLBCameraView.a'
 
-# Cocoapods
+# CocoaPods
 
 -> VLBCameraView (2.0)
    A UIVIew that shows a live feed of the camera, can be used to take a picture, preview the picture and return a UIImage of that preview.  
