@@ -1,3 +1,11 @@
+# Notice
+
+Archived - Hasn't been maintained in 6 years
+
+Preserved as reference material
+
+* * * 
+
 # Introduction
 A UIVIew that shows a live feed of the camera, can be used to take a picture, preview that picture and return an UIImage of that preview.
 
